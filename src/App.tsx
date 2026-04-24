@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        const response = await fetch("https://3722-41-62-54-241.ngrok-free.app");
+        const response = await fetch("https://kong-pointing-detroit-efficiently.trycloudflare.com ");
         if (response.ok) {
           setBackendStatus("connected");
         } else {
