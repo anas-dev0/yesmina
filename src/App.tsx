@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        const response = await fetch("http://localhost:8000/");
+        const response = await fetch("https://3722-41-62-54-241.ngrok-free.app");
         if (response.ok) {
           setBackendStatus("connected");
         } else {
