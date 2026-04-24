@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getWebSocketUrl } from "../config";
 import "./CameraFeed.css";
 
 interface DetectionInfo {
@@ -24,6 +25,7 @@ const CameraFeed = () => {
   const [detections, setDetections] = useState<DetectionInfo | null>(null);
   const [fps, setFps] = useState(0);
   const [wsConnected, setWsConnected] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const fpsRef = useRef({ lastTime: Date.now(), frameCount: 0 });
 
   // Initialize camera
@@ -67,11 +69,16 @@ const CameraFeed = () => {
 
     const connectWebSocket = () => {
       try {
-        wsRef.current = new WebSocket("ws://localhost:8000/ws/stream");
+        const wsUrl = getWebSocketUrl();
+        console.log("Connecting to WebSocket:", wsUrl);
+        setError(null);
+
+        wsRef.current = new WebSocket(wsUrl);
 
         wsRef.current.onopen = () => {
-          console.log("WebSocket connected");
+          console.log("WebSocket connected successfully");
           setWsConnected(true);
+          setError(null);
         };
 
         wsRef.current.onmessage = (event) => {
@@ -86,6 +93,9 @@ const CameraFeed = () => {
                 if (ctx && resultCanvasRef.current) {
                   ctx.drawImage(img, 0, 0);
                 }
+              };
+              img.onerror = () => {
+                console.error("Failed to load image from backend");
               };
               img.src = `data:image/jpeg;base64,${message.image}`;
 
@@ -102,15 +112,17 @@ const CameraFeed = () => {
               }
             } else {
               console.error("Inference error:", message.error);
+              setError(message.error || "Inference failed");
             }
           } catch (error) {
             console.error("Failed to parse WebSocket message:", error);
           }
         };
 
-        wsRef.current.onerror = (error) => {
-          console.error("WebSocket error:", error);
+        wsRef.current.onerror = (event) => {
+          console.error("WebSocket error:", event);
           setWsConnected(false);
+          setError("WebSocket connection error. Check console for details.");
         };
 
         wsRef.current.onclose = () => {
@@ -118,8 +130,11 @@ const CameraFeed = () => {
           setWsConnected(false);
         };
       } catch (error) {
-        console.error("Failed to connect WebSocket:", error);
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        console.error("Failed to connect WebSocket:", errorMessage);
         setWsConnected(false);
+        setError(`Failed to connect: ${errorMessage}`);
       }
     };
 
@@ -214,6 +229,15 @@ const CameraFeed = () => {
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="error-box">
+          <strong>⚠️ Error:</strong> {error}
+          <p style={{ fontSize: "0.85em", marginTop: "5px" }}>
+            Check browser console (F12) for more details
+          </p>
+        </div>
+      )}
 
       {detections && (
         <div className="detection-stats">

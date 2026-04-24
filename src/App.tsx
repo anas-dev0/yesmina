@@ -1,22 +1,31 @@
 import { useState, useEffect } from "react";
 import CameraFeed from "./components/CameraFeed";
+import { getStatusUrl } from "./config";
 import "./App.css";
 
 function App() {
   const [backendStatus, setBackendStatus] = useState<
     "connecting" | "connected" | "disconnected"
   >("disconnected");
+  const [apiUrl, setApiUrl] = useState<string>("");
 
   useEffect(() => {
+    const url = getStatusUrl();
+    setApiUrl(url);
+
     const checkBackend = async () => {
       try {
-        const response = await fetch("https://kong-pointing-detroit-efficiently.trycloudflare.com ");
+        const response = await fetch(`${url}/`, {
+          method: "GET",
+          mode: "cors",
+        });
         if (response.ok) {
           setBackendStatus("connected");
         } else {
           setBackendStatus("disconnected");
         }
-      } catch {
+      } catch (error) {
+        console.warn("Backend connection check failed:", error);
         setBackendStatus("disconnected");
       }
     };
@@ -43,16 +52,23 @@ function App() {
           <CameraFeed />
         ) : (
           <div className="error-message">
-            <p>⚠️ Cannot connect to backend server at http://localhost:8000</p>
-            <p>Please start the FastAPI server first:</p>
+            <p>⚠️ Cannot connect to backend server</p>
+            <p>
+              Backend URL: <code>{apiUrl}</code>
+            </p>
+            <p>If running locally, make sure the FastAPI server is running:</p>
             <code>cd backend && python main.py</code>
+            <p style={{ marginTop: "15px", fontSize: "0.9em", color: "#666" }}>
+              For remote backends, configure via environment variable:{" "}
+              <code>VITE_API_URL</code>
+            </p>
           </div>
         )}
       </main>
 
       <footer className="app-footer">
         <p>
-          Make sure the backend is running at <code>http://localhost:8000</code>
+          Backend URL: <code>{apiUrl}</code>
         </p>
       </footer>
     </div>

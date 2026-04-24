@@ -8,6 +8,5 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    allowedHosts: ['cead-41-62-54-241.ngrok-free.app']
   },
 })
