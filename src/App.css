@@ -97,3 +97,194 @@
   border-radius: 3px;
   font-family: "Courier New", monospace;
 }
+
+/* URL Configuration Section */
+.url-config-section {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.url-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.url-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 250px;
+}
+
+.url-info label {
+  font-weight: bold;
+  color: white;
+  font-size: 0.95em;
+}
+
+.url-value {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #e3f2fd;
+  font-family: "Courier New", monospace;
+  font-size: 0.85em;
+  word-break: break-all;
+  max-width: 300px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.config-button {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.config-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.url-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.url-input {
+  padding: 10px 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-family: "Courier New", monospace;
+  font-size: 0.95em;
+}
+
+.url-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: #4caf50;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.save-button,
+.cancel-button,
+.reset-button,
+.edit-url-button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.save-button {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+}
+
+.save-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.cancel-button {
+  background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+  color: white;
+}
+
+.cancel-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+}
+
+.reset-button {
+  background: linear-gradient(135deg, #ff9800 0%, #e68900 100%);
+  color: white;
+}
+
+.reset-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.edit-url-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+.edit-url-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 1.8em;
+  }
+
+  .url-display {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .url-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .url-value {
+    width: 100%;
+    max-width: none;
+  }
+
+  .config-button {
+    width: 100%;
+  }
+
+  .url-edit {
+    width: 100%;
+  }
+
+  .url-input {
+    width: 100%;
+  }
+
+  .button-group {
+    width: 100%;
+  }
+
+  .save-button,
+  .cancel-button,
+  .reset-button {
+    flex: 1;
+  }
+}

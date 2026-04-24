@@ -15,7 +15,11 @@ interface WebSocketMessage {
   error?: string;
 }
 
-const CameraFeed = () => {
+interface CameraFeedProps {
+  apiUrl: string;
+}
+
+const CameraFeed = ({ apiUrl }: CameraFeedProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resultCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -65,11 +69,11 @@ const CameraFeed = () => {
 
   // Initialize WebSocket
   useEffect(() => {
-    if (!isRunning) return;
+    if (!isRunning || !apiUrl) return;
 
     const connectWebSocket = () => {
       try {
-        const wsUrl = getWebSocketUrl();
+        const wsUrl = getWebSocketUrl(apiUrl);
         console.log("Connecting to WebSocket:", wsUrl);
         setError(null);
 
@@ -145,7 +149,7 @@ const CameraFeed = () => {
         wsRef.current.close();
       }
     };
-  }, [isRunning]);
+  }, [isRunning, apiUrl]);
 
   // Capture and send frames
   useEffect(() => {
